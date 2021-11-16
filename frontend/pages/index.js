@@ -1,5 +1,89 @@
 import { useState } from "react";
+import styled from "styled-components";
 import Image from "next/image";
+
+const Container = styled.div`
+  height: 125vh;
+  width: 100%;
+  margin: auto;
+  top: 0;
+  left: 0;
+  background-color: rgb(219, 234, 254);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const FormBackground = styled.div`
+  height: 75%;
+  width: 66.66%;
+  background-color: white;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  padding-top: 3rem;
+  border-radius: 25px;
+`;
+
+const FormTitle = styled.div`
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 10;
+  color: #1e3a8a;
+  padding-bottom: 2rem;
+`;
+
+const FormContainer = styled.div`
+  height: 75%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding-top: 2.5rem;
+`;
+
+const LeftForm = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+  height: 10rem;
+`;
+
+const InputLabels = styled.label`
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+`;
+
+const FormInputs = styled.input`
+  width: 15rem;
+  height: 3rem;
+  border: 1px solid;
+  padding-left: 0.5rem;
+  border-radius: 5px;
+  focus: rgb(96, 165, 250);
+`;
+
+const RightForm = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const ImageUploadContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 22.5rem;
+`;
+
+const ImgContainer = styled.img`
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+`;
 
 export default function Home() {
   const [front, setFront] = useState(null);
@@ -33,56 +117,61 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-blue-100 w-screen h-screen flex items-center justify-center">
-      {/* Container Starts here */}
-      <div className="h-3/4 bg-white p-16 rounded shadow-2x1 w-2/3 p-5 rounded">
-        <h2 className="text-3xl font-bold mb-10 text-blue-900">
-          Upload Your Car Information
-        </h2>
+    <Container>
+      <FormBackground>
+        <FormTitle>Upload Your Car Information</FormTitle>
         <form className="h-full space-y-8">
-          {/* Form starts here */}
-          <div className="h-3/4 flex flex-row">
-            {/* Left Half of Form */}
-            <div className="w-1/4 flex flex-col mr-96">
-              <div>
-                <label className="block mb-2 font-bold">Liscense Plate</label>
-                <input
-                  className="w-full border border-gray-200 p-3 rounded outline-none focus:border-blue-600"
+          <FormContainer>
+            <LeftForm>
+              <InputContainer>
+                <InputLabels>Liscense Plate</InputLabels>
+                <FormInputs
                   type="text"
                   id="plate"
                   onChange={(e) => setPlate(e.target.value)}
                 />
-              </div>
-              <div className="pt-3">
-                <label className="block mb-2 font-bold">Car Model</label>
-                <input
-                  className="w-full border border-gray-200 p-3 rounded outline-none focus:border-blue-600"
+              </InputContainer>
+              <InputContainer>
+                <InputLabels>Car Model</InputLabels>
+                <FormInputs
                   type="text"
                   id="car_model"
                   onChange={(e) => setModel(e.target.value)}
                 />
-              </div>
-            </div>
+              </InputContainer>
+            </LeftForm>
             {/* right half of form */}
-            <div className="flex justify-between">
-              <div>
-                <label className="block mb-2 font-bold">Front Car Photo</label>
+            <RightForm>
+              <ImageUploadContainer>
+                <InputLabels>Front Car Photo</InputLabels>
+                {front === null ? (
+                  <ImgContainer src="uploadicon.png" />
+                ) : (
+                  <ImgContainer src={front} />
+                )}
                 <input
+                  className="pt-3"
                   type="file"
                   id="frontcar"
                   onChange={(e) => setFront(e.target.value)}
                 />
-              </div>
-              <div>
-                <label className="block mb-2 font-bold">Back Car Photo</label>
+              </ImageUploadContainer>
+              <ImageUploadContainer>
+                <InputLabels>Back Car Photo</InputLabels>
+                {back === null ? (
+                  <ImgContainer src="uploadicon.png" />
+                ) : (
+                  <ImgContainer src={back} />
+                )}
                 <input
+                  className="pt-3"
                   type="file"
                   id="backcar"
                   onChange={(e) => setBack(e.target.value)}
                 />
-              </div>
-            </div>
-          </div>
+              </ImageUploadContainer>
+            </RightForm>
+          </FormContainer>
           <button
             type="button"
             className="block w-full bg-blue-400 p-5 rounded text-gray-900 shadow-3x1"
@@ -92,7 +181,7 @@ export default function Home() {
           </button>
           {error ? error : null}
         </form>
-      </div>
-    </div>
+      </FormBackground>
+    </Container>
   );
 }
